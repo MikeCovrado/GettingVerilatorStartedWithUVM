@@ -4,8 +4,9 @@ Sources fetched from the Verilab webpage at https://www.verilab.com/post/getting
 The goal of this repo is to create a simple, yet complete and realistic, UVM environment and get it compiling and running with Verilator. 
 
 ## Current status
+0. Last tested with Verilator v5.018 on Ubuntu 22.04.
 1. Not yet compiling (working on it).
-2. Anything that is known to be not currently supported by Verilator is excludes with conditional compilation macros:
+2. Anything that is known to be not currently supported by Verilator is excluded with conditional compilation macros:
 ```
 `ifdef VERILATOR
   // code that is not supported by Verilator...
