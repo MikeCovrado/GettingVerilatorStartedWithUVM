@@ -120,6 +120,7 @@ DISABLED_WARNINGS="-Wno-DECLFILENAME \
      $DISABLED_WARNINGS \
      +define+UVM_REPORT_DISABLE_FILE_LINE \
      +define+SVA_ON \
+     +define+UVM_NO_DPI \
      +incdir+$UVM_HOME \
      +incdir+../rtl \
      +incdir+../sv \

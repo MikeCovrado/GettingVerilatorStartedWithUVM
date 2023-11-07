@@ -21,7 +21,7 @@ First, install the latest version of Verilator.  See https://verilator.org/guide
 Second, create a shell environment variable `UVM_HOME` and clone the version of the UVM library from ChipsAlliance there. 
 ```
 $ export UVM_HOME="/location/of/UVM/lib"
-$ git clone git@github.com:chipsalliance/uvm-verilator.git $UVM_HOME
+$ git clone git@github.com:antmicro/uvm-verilator.git -b current-patches $UVM_HOME
 ```
 
 The (somewhat brain-dead) script will get you started:
