@@ -17,7 +17,11 @@
 //   permissions and limitations under the License.
 //----------------------------------------------------------------------
 
+`ifndef VERILATOR
 class pipe_sequencer extends uvm_sequencer #(data_packet);
+`else
+class pipe_sequencer extends uvm_sequencer #(data_packet, data_packet);
+`endif
 
    int max_count = 100;
 
