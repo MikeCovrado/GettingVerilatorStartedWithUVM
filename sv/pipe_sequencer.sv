@@ -23,8 +23,8 @@ class pipe_sequencer extends uvm_sequencer #(data_packet);
 class pipe_sequencer extends uvm_sequencer #(data_packet, data_packet);
 `endif
 
-   //`uvm_sequencer_utils(pipe_sequencer)
-   `uvm_object_utils(pipe_sequencer)
+   `uvm_component_utils(pipe_sequencer)
+//   `uvm_sequencer_utils(pipe_sequencer)
 
    function new(string name, uvm_component parent);
       super.new(name, parent);

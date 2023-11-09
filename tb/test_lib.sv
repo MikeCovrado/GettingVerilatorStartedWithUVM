@@ -30,8 +30,9 @@ class base_test extends uvm_test;
    function void build_phase(uvm_phase phase);
       super.build_phase(phase);
       env = dut_env::type_id::create("env", this);
-      printer = new( );
-      printer.knobs.depth = 5;
+      printer = new("my_printer");
+      // NOTE: requires +define+UVM_ENABLE_DEPRECATED_API, otherwise knobs is a local member of the printer.
+      //printer.knobs.depth = 5;
    endfunction:build_phase
 
    virtual function void end_of_elaboration_phase(uvm_phase phase);
@@ -39,7 +40,13 @@ class base_test extends uvm_test;
    endfunction: end_of_elaboration_phase
 
    virtual task run_phase(uvm_phase phase);
-      phase.phase_done.set_drain_time(this, 1500);
+      //phase.phase_done.set_drain_time(this, 1500);
+      uvm_objection objection = phase.get_objection();
+
+      phase.raise_objection(this);
+      //#20;
+      objection.set_drain_time(this, 1500);
+      phase.drop_objection(this);
    endtask: run_phase
 
 endclass: base_test

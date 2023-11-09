@@ -38,9 +38,9 @@ class pipe_agent extends uvm_agent;
          sequencer = pipe_sequencer::type_id::create("sequencer", this);
          driver = pipe_driver::type_id::create("driver", this);
       end
-      
+
       monitor = pipe_monitor::type_id::create("monitor", this);
- 
+
       `uvm_info(get_full_name( ), "Build stage complete.", UVM_LOW)
    endfunction: build_phase
 
@@ -48,5 +48,5 @@ class pipe_agent extends uvm_agent;
       if(is_active == UVM_ACTIVE)
          driver.seq_item_port.connect(sequencer.seq_item_export);
       `uvm_info(get_full_name( ), "Connect stage complete.", UVM_LOW)
-   endfunction: connect_phase 
+   endfunction: connect_phase
 endclass: pipe_agent

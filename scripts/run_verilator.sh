@@ -99,6 +99,8 @@ UVM_PKG="$UVM_HOME/uvm_pkg.sv"
 # Redundant Verilotor arguments
 #     +define+VERILATOR \
 #     -sv \
+# Unusable Verilator arguments
+#     +define+UVM_ENABLE_DEPRECATED_API \
 
 # Deliberately disabled warnings (all from the UVM class library)
 DISABLED_WARNINGS="-Wno-DECLFILENAME \
@@ -108,13 +110,24 @@ DISABLED_WARNINGS="-Wno-DECLFILENAME \
                    -Wno-WIDTHTRUNC \
                    -Wno-CASTCONST \
                    -Wno-WIDTHEXPAND \
+                   -Wno-UNDRIVEN \
+                   -Wno-UNUSEDSIGNAL \
+                   -Wno-UNUSEDPARAM \
+                   -Wno-ZERODLY \
+                   -Wno-SYMRSVDWORD \
+                   -Wno-CASEINCOMPLETE \
                    -Wno-REALCVT"
 
 # compile
  verilator \
+     --cc \
+     --exe \
+     --Mdir verilator_obj_dir \
+     --build \
      --coverage \
      --error-limit 5 \
      --binary \
+     --hierarchical \
      -j 1 \
      -Wall \
      $DISABLED_WARNINGS \
@@ -131,6 +144,8 @@ DISABLED_WARNINGS="-Wno-DECLFILENAME \
      ../rtl/pipe.v \
      ../tb/top.sv
 
+# run
+./verilator_obj_dir/Vuvm_pkg +UVM_TESTNAME=data0_test
 
 #if ! ../scripts/analyze.pl -quiet transcript; then
 #  echo "[$OPT_TESTNAME]:    FAIL" 
