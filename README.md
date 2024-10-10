@@ -1,12 +1,35 @@
 # GettingVerilatorStartedWithUVM
 This is a somewhat modified version of the source code for "Getting Started with UVM", a textbook by Vanessa Cooper of Verilab.
 Sources fetched from the Verilab webpage at https://www.verilab.com/post/getting-started-with-uvm-book on 2023-08-24.
-The goal of this repo is to create a simple, yet complete and realistic, UVM environment and get it compiling and running with Verilator. 
+The goal of this repo is to create a simple, yet complete and realistic, UVM environment and get it compiling and running with Verilator.
 
 ## Current status
-0. Last tested with Verilator v5.018 on Ubuntu 22.04.
-1. Not yet compiling (working on it).
-2. Anything that is known to be not currently supported by Verilator is excluded with conditional compilation macros:
+0. Last tested with Verilator v5.028 on Ubuntu 22.04.
+1. Compiles with zero errors (subject to a rather long list of disabled warnings).
+2. Execution abort at t=0:
+```
+UVM_INFO @ 0: reporter [UVM/RELNOTES] 
+  ***********       IMPORTANT RELEASE NOTES         ************
+
+  This implementation of the UVM Library deviates from the 1800.2-2017
+  standard.  See the DEVIATIONS.md file contained in the release
+  for more details.
+
+----------------------------------------------------------------
+Accellera:1800.2-2017:UVM:1.0
+
+All copyright owners for this kit are listed in NOTICE.txt
+All Rights Reserved Worldwide
+----------------------------------------------------------------
+
+      (Specify +UVM_NO_RELNOTES to turn off this notice)
+
+UVM_INFO @ 0: reporter [NO_DPI_TSTNAME] UVM_NO_DPI defined--getting UVM_TESTNAME directly, without DPI
+UVM_INFO @ 0: reporter [RNTST] Running test data1_test...
+%Error: ../rtl/../tb/top.sv:20: Input combinational region did not converge.
+Aborting...
+```
+3. Anything that is known to be not currently supported by Verilator is excluded with conditional compilation macros:
 ```
 `ifdef VERILATOR
   // code that is not supported by Verilator...
@@ -27,5 +50,5 @@ $ git clone git@github.com:antmicro/uvm-verilator.git -b current-patches $UVM_HO
 The (somewhat brain-dead) script will get you started:
 ```
 $ cd scripts
-$ ./run_verilator.sh testname
+$ ./run_verilator.sh data0_test
 ```

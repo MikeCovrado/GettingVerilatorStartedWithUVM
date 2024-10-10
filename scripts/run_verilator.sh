@@ -8,13 +8,14 @@
 # This is a simple example script to run a simulation
   usage() {
     echo ""
-    echo "Usage: $(basename $0) TESTNAME [-g(ui)] [-c(overage)] [-s(eed) SVSEED] [-v(erbose)] [-h(elp)] "
+    echo "Usage:   $(basename $0) TESTNAME [-g(ui)] [-c(overage)] [-s(eed) SVSEED] [-v(erbose)] [-h(elp)] "
+    echo "Example: $(basename $0) data0_test"
   }
 
   help() {
     usage
     echo ""
-    echo "  - run specified test"
+    echo "  - run specified TESTNAME"
     echo ""
     echo "Options:"
     echo "  -g(ui)            - GUI"
@@ -89,6 +90,8 @@
 if [[ -z "${UVM_HOME}" ]]; then
   #UVM_HOME="/opt/accellera/uvm-1.2/src"
   #UVM_HOME="/home/mike/GitHubRepos/chipsalliance/uvm-verilator/master/src"
+  #UVM_HOME="/home/mike/GitHubRepos/antmicro/verilator-verification-features-tests/main/uvm/src"
+
   echo "Please set shell environment variable UVM_HOME to point at your UVM class library"
   exit 1
 else
@@ -96,7 +99,7 @@ else
 fi
 UVM_PKG="$UVM_HOME/uvm_pkg.sv"
 
-# Redundant Verilotor arguments
+# Redundant Verilator arguments
 #     +define+VERILATOR \
 #     -sv \
 # Unusable Verilator arguments
@@ -116,6 +119,7 @@ DISABLED_WARNINGS="-Wno-DECLFILENAME \
                    -Wno-ZERODLY \
                    -Wno-SYMRSVDWORD \
                    -Wno-CASEINCOMPLETE \
+                   -Wno-SIDEEFFECT \
                    -Wno-REALCVT"
 
 # compile
@@ -145,7 +149,7 @@ DISABLED_WARNINGS="-Wno-DECLFILENAME \
      ../tb/top.sv
 
 # run
-./verilator_obj_dir/Vuvm_pkg +UVM_TESTNAME=data0_test
+./verilator_obj_dir/Vuvm_pkg +UVM_TESTNAME=$OPT_TESTNAME
 
 #if ! ../scripts/analyze.pl -quiet transcript; then
 #  echo "[$OPT_TESTNAME]:    FAIL" 
