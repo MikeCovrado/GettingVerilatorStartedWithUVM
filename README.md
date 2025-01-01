@@ -4,10 +4,13 @@ Sources fetched from the Verilab webpage at https://www.verilab.com/post/getting
 The goal of this repo is to create a simple, yet complete and realistic, UVM environment and get it compiling and running with Verilator.
 
 ## Current status
-0. Last tested with Verilator v5.028 on Ubuntu 22.04.
+0. Last tested with Verilator v5.032 on Ubuntu 22.04.
 1. Compiles with zero errors (subject to a rather long list of disabled warnings).
 2. Execution abort at t=0:
 ```
+- V e r i l a t i o n   R e p o r t: Verilator 5.032 2025-01-01 rev v5.032
+- Verilator: Built from 19.865 MB sources in 355 modules, into 31.144 MB in 5344 C++ files needing 15.500 MB
+- Verilator: Walltime 2427.444 s (elab=0.710, cvt=5.992, bld=2418.529); cpu 8.042 s on 1 threads; alloced 227.215 MB
 UVM_INFO @ 0: reporter [UVM/RELNOTES] 
   ***********       IMPORTANT RELEASE NOTES         ************
 
@@ -25,9 +28,10 @@ All Rights Reserved Worldwide
       (Specify +UVM_NO_RELNOTES to turn off this notice)
 
 UVM_INFO @ 0: reporter [NO_DPI_TSTNAME] UVM_NO_DPI defined--getting UVM_TESTNAME directly, without DPI
-UVM_INFO @ 0: reporter [RNTST] Running test data1_test...
+UVM_INFO @ 0: reporter [RNTST] Running test data0_test...
 %Error: ../rtl/../tb/top.sv:20: Input combinational region did not converge.
 Aborting...
+./run_verilator.sh: line 133: 994147 Aborted                 (core dumped) ./verilator_obj_dir/Vuvm_pkg +UVM_TESTNAME="$OPT_TESTNAME"
 ```
 3. Anything that is known to be not currently supported by Verilator is excluded with conditional compilation macros:
 ```
