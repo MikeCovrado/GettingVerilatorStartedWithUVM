@@ -3,6 +3,10 @@ This is a somewhat modified version of the source code for "Getting Started with
 Sources fetched from the Verilab webpage at https://www.verilab.com/post/getting-started-with-uvm-book on 2023-08-24.
 The goal of this repo is to create a simple, yet complete and realistic, UVM environment and get it compiling and running with Verilator.
 
+> [!NOTE]
+> This repo will be updated each time Verilator announces a new release.
+> The current cadence of releases is approximately two months.
+
 ## Current status
 0. Last tested with Verilator v5.032 on Ubuntu 22.04.
 1. Compiles with zero errors (subject to a rather long list of disabled warnings).
