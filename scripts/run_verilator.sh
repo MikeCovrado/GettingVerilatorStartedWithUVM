@@ -9,7 +9,8 @@
 #export UVM_HOME="/home/mike/GitHubRepos/chipsalliance/uvm-verilator/master/src"
 #export UVM_HOME="/home/mike/GitHubRepos/antmicro/verilator-verification-features-tests/main/uvm/src"
 #export UVM_HOME="/home/mike/GitHubRepos/antmicro/verilator-verification-features-tests/main/uvm/uvm-1.2/src"
-export UVM_HOME="/home/mike/GitHubRepos/antmicro/verilator-verification-features-tests/main/uvm/uvm-2017/src"
+#export UVM_HOME="/home/mike/GitHubRepos/antmicro/verilator-verification-features-tests/main/uvm/uvm-2017/src"
+export UVM_HOME="/home/mike/GitHubRepos/antmicro/uvm-verilator/current-patches-deprecated-api/src"
 
 # This is a simple example script to run a simulation
   usage() {

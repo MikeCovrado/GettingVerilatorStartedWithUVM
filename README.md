@@ -8,7 +8,7 @@ The goal of this repo is to create a simple, yet complete and realistic, UVM env
 > The current cadence of releases is approximately two months.
 
 ## Current status
-0. Last tested with Verilator v5.036 on Ubuntu 22.04.
+0. Last tested with Verilator v5.040 on Ubuntu 24.04.
 1. Anything that is known to be not currently supported by Verilator is excluded with conditional compilation macros:
 ```
 `ifdef VERILATOR
@@ -18,11 +18,11 @@ The goal of this repo is to create a simple, yet complete and realistic, UVM env
 `endif
 ```
 2. Compiles with zero errors (subject to a rather long list of disabled warnings).
-3. Execution abort at t=0:
+3. Execution aborts at t=0 during the build phase:
 ```
-- V e r i l a t i o n   R e p o r t: Verilator 5.036 2025-04-27 rev v5.036
-- Verilator: Built from 20.774 MB sources in 355 modules, into 33.194 MB in 5344 C++ files needing 15.796 MB
-- Verilator: Walltime 241.063 s (elab=0.489, cvt=5.038, bld=234.453); cpu 6.610 s on 1 threads; alloced 257.508 MB
+- V e r i l a t i o n   R e p o r t: Verilator 5.040 2025-08-30 rev v5.040
+- Verilator: Built from 19.373 MB sources in 355 modules, into 33.127 MB in 5346 C++ files needing 15.654 MB
+- Verilator: Walltime 368.910 s (elab=0.727, cvt=5.844, bld=361.106); cpu 7.804 s on 1 threads; alloced 249.438 MB
 UVM_INFO @ 0: reporter [UVM/RELNOTES] 
   ***********       IMPORTANT RELEASE NOTES         ************
 
@@ -41,27 +41,27 @@ All Rights Reserved Worldwide
 
 UVM_INFO @ 0: reporter [NO_DPI_TSTNAME] UVM_NO_DPI defined--getting UVM_TESTNAME directly, without DPI
 UVM_INFO @ 0: reporter [RNTST] Running test data0_test...
-%Error: ../rtl/../tb/top.sv:20: Input combinational region did not converge.
+UVM_INFO @ 0: uvm_test_top.env [uvm_test_top.env] Build stage complete.
+UVM_INFO @ 0: uvm_test_top.env.penv_in [uvm_test_top.env.penv_in] Build stage complete.
+[0] %Error: pipe_agent.sv:27: Assertion failed in pipe_pkg.pipe_agent.__m_uvm_execute_field_op: 'assert' failed.
+%Error: ../sv/pipe_agent.sv:27: Verilog $stop
 Aborting...
-./run_verilator.sh: line 134: 81355 Aborted                 (core dumped) ./verilator_obj_dir/Vuvm_pkg +UVM_TESTNAME="$OPT_TESTNAME"
 ```
-The above run-time error is believed to be related to [Verilator Issue #5116](https://github.com/verilator/verilator/issues/5116)
 
 ## Try it yourself!
-Install the latest version of Verilator.  See https://verilator.org/guide/latest/install.html for details.
-
-Create a shell environment variable `ANTMICRO` to point to where you would like you clone of the UVM library to be:
+1. Install the latest version of Verilator.  See https://verilator.org/guide/latest/install.html for details.
+2. Create a shell environment variable `ANTMICRO` to point to where you would like you clone of the UVM library to be:
 ```
-$ git clone --recursive git@github.com:antmicro/verilator-verification-features-tests.git $ANTMICRO/main
+$ git clone -b current-patches-deprecated-api https://github.com/antmicro/uvm-verilator.git $ANTMICRO/current-patches-deprecated-api
 ```
 
-Edit the (somewhat brain-dead) run-script to point a shell environment variable `UVM_HOME` to point to the above:
+3. Edit the (somewhat brain-dead) run-script to point a shell environment variable `UVM_HOME` to point to the above:
 ```
 $ vim scripts/run_verilator.sh
->>> export UVM_HOME="$ANTMICRO/main/uvm/uvm-2017/src"
+>>> export UVM_HOME="$ANTMICRO/current-patches-deprecated-api/src"
 ```
 
-Run it!
+4. Run it!
 ```
 $ cd scripts
 $ ./run_verilator.sh data0_test
