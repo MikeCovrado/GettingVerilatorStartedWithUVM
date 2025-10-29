@@ -24,7 +24,7 @@ class pipe_agent extends uvm_agent;
    pipe_driver    driver;
    pipe_monitor   monitor;
 
-   // Verilator bug: field automation on is_active conflicts with parent's manual handling
+   // Field automation on is_active conflicts with parent's manual handling
    // Check uvm_agent.svh:44 (TODO) and lines 64-86 (manual build_phase handling)
    // `uvm_component_utils_begin(pipe_agent)
    //    `uvm_field_enum(uvm_active_passive_enum, is_active, UVM_ALL_ON)
