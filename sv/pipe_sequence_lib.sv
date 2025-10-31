@@ -44,13 +44,7 @@ class data0_sequence extends uvm_sequence #(data_packet);
 `else
       req = data_packet::type_id::create("req");
       start_item(req);
-      //assert(req.randomize());
-      req.cf        =  2'b00;
-      req.data_in0  = 16'h0000;
-      req.data_in1  = 16'h1111;
-      req.data_out0 = 16'h2222;
-      req.data_out1 = 16'h3333;
-      req.delay     =   'd10;
+      assert(req.randomize() with {req.data_in0 == 16'h0;});
       finish_item(req);
 `endif
    endtask: body
