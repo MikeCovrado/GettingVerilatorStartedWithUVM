@@ -13,7 +13,7 @@ Check out the Issues and filter on 'Good First Issue.'
 ## Current status
 0. **Success!**  Well, _partial_ success:
   - Currently compiles and executes with Verilator v5.040 on Ubuntu 24.04.
-  - Does _not_ compile with Verilator v5.042.
+  - Does _not_ compile with Verilator v5.042 (_might_ be related to [Verilator #4767](https://github.com/verilator/verilator/issues/4767)).
   - Uses a custom version of the UVM Library (see `scripts/run_verilator.sh`).
 1. Anything that is known to be not currently supported by Verilator is excluded with conditional compilation macros:
 ```
