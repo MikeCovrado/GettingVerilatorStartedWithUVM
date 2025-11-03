@@ -5,12 +5,17 @@
 # Substantially modified by Mike Thompson, OpenHW (www.openhwgroup.org)
 # =============================================================================
 
-#export UVM_HOME="/opt/accellera/uvm-1.2/src"
+# Antmicro's UVM library from git@github.com:antmicro/verilator-verification-features-tests.git (it works)
+export UVM_HOME="/home/mike/GitHubRepos/antmicro/verilator-verification-features-tests/main/uvm/uvm-2017/src"
+
+# Accelera's UVM library fetched with `wget https://www.accellera.org/images/downloads/standards/uvm/Accellera-1800.2-2017-1.0.tar.gz` (not yet working)
+#export UVM_HOME="/opt/accellera/1800.2-2017-1.0/src"
+
+# UVM library previous attemts...
 #export UVM_HOME="/home/mike/GitHubRepos/chipsalliance/uvm-verilator/master/src"
 #export UVM_HOME="/home/mike/GitHubRepos/antmicro/verilator-verification-features-tests/main/uvm/src"
 #export UVM_HOME="/home/mike/GitHubRepos/antmicro/verilator-verification-features-tests/main/uvm/uvm-1.2/src"
-#export UVM_HOME="/home/mike/GitHubRepos/antmicro/verilator-verification-features-tests/main/uvm/uvm-2017/src"
-export UVM_HOME="/home/mike/GitHubRepos/antmicro/uvm-verilator/current-patches-deprecated-api/src"
+#export UVM_HOME="/home/mike/GitHubRepos/antmicro/uvm-verilator/current-patches-deprecated-api/src"
 
 # This is a simple example script to run a simulation
   usage() {
@@ -98,6 +103,7 @@ export UVM_HOME="/home/mike/GitHubRepos/antmicro/uvm-verilator/current-patches-d
                      -Wno-SYMRSVDWORD \
                      -Wno-CASEINCOMPLETE \
                      -Wno-SIDEEFFECT \
+                     -Wno-fatal \
                      -Wno-REALCVT"
 
 # compile
