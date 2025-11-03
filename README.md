@@ -7,8 +7,13 @@ The goal of this repo is to create a simple, yet complete and realistic, UVM env
 > This repo will be updated each time Verilator announces a new release.
 > The current cadence of releases is approximately two months.
 
+## You can help!
+Check out the Issues and filter on 'Good First Issue.'
+
 ## Current status
-0. Success!  Currently compiles and executes with Verilator v5.040 on Ubuntu 24.04!
+0. **Success!**  Well, _partial_ success:
+  - Currently compiles and executes with Verilator v5.042 on Ubuntu 24.04.
+  - Uses a custom version of the UVM Library (see `scripts/run_verilator.sh`).
 1. Anything that is known to be not currently supported by Verilator is excluded with conditional compilation macros:
 ```
 `ifdef VERILATOR

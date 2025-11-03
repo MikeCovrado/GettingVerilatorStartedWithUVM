@@ -61,12 +61,7 @@ class data1_sequence extends uvm_sequence #(data_packet);
    virtual task body( );
       req = data_packet::type_id::create("req");
       start_item(req);
-`ifndef VERILATOR
       assert(req.randomize() with {data_in1 == 'hffff;});
-`else
-      assert(req.randomize());
-      req.data_in1 = 16'hffff;
-`endif
       finish_item(req);
    endtask: body
 
