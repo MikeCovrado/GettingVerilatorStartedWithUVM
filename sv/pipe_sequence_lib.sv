@@ -39,14 +39,20 @@ class data0_sequence extends uvm_sequence #(data_packet);
    endfunction:new
 
    virtual task body( );
-`ifndef VERILATOR
-      `uvm_do_with(req, {req.data_in0 == 16'h0;})
-`else
+      // NOTE: in the original version of this code from Verilab, the
+      //       `uvm_do_with() macro below was used.  This macro has been deprecated
+      //        as of 1800.2-2017 and is therefore replaced with the explicit
+      //        three-step start/randomize/finish process.
+      //`uvm_do_with(req, {req.data_in0 == 16'h0;})
       req = data_packet::type_id::create("req");
       start_item(req);
-      assert(req.randomize() with {req.data_in0 == 16'h0;});
+      // NOTE: use of immediate assertions is considered bad coding stlye in
+      //       the UVM because failures are not "seen" by the logger.
+      //assert(req.randomize() with {req.data_in0 == 16'h0;});
+      if (!req.randomize() with { req.data_in0 == 16'h0; }) begin
+          `uvm_error("RAND_FAIL", "Randomization failed!")
+      end
       finish_item(req);
-`endif
    endtask: body
 
 endclass: data0_sequence

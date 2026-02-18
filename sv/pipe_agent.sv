@@ -17,18 +17,15 @@
 //   permissions and limitations under the License.
 //----------------------------------------------------------------------
 
+// NOTE: the "is_active" member declared in the original code from Verilab has
+//       been removed and replaced with calls to get_is_active(). This is
+//       considered a more robust coding practise.
+
 class pipe_agent extends uvm_agent;
-   protected uvm_active_passive_enum is_active = UVM_ACTIVE;
 
    pipe_sequencer sequencer;
    pipe_driver    driver;
    pipe_monitor   monitor;
-
-   // Field automation on is_active conflicts with parent's manual handling
-   // Check uvm_agent.svh:44 (TODO) and lines 64-86 (manual build_phase handling)
-   // `uvm_component_utils_begin(pipe_agent)
-   //    `uvm_field_enum(uvm_active_passive_enum, is_active, UVM_ALL_ON)
-   // `uvm_component_utils_end
 
    `uvm_component_utils(pipe_agent)
 
@@ -38,7 +35,7 @@ class pipe_agent extends uvm_agent;
 
    function void build_phase(uvm_phase phase);
       super.build_phase(phase);
-      if(is_active == UVM_ACTIVE) begin
+      if(get_is_active() == UVM_ACTIVE) begin
          sequencer = pipe_sequencer::type_id::create("sequencer", this);
          driver = pipe_driver::type_id::create("driver", this);
       end
@@ -49,7 +46,7 @@ class pipe_agent extends uvm_agent;
    endfunction: build_phase
 
    function void connect_phase(uvm_phase phase);
-      if(is_active == UVM_ACTIVE)
+      if(get_is_active() == UVM_ACTIVE)
          driver.seq_item_port.connect(sequencer.seq_item_export);
       `uvm_info(get_full_name( ), "Connect stage complete.", UVM_LOW)
    endfunction: connect_phase
