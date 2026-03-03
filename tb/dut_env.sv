@@ -22,9 +22,7 @@ class dut_env extends uvm_env;
    pipe_env        penv_in;
    pipe_env        penv_out;
    pipe_scoreboard sb;
-`ifndef VERILATOR
    pipe_coverage   pipe_cov;
-`endif
 
    `uvm_component_utils(dut_env)
 
@@ -45,9 +43,7 @@ class dut_env extends uvm_env;
       penv_out = pipe_env::type_id::create("penv_out", this);
 
       sb = pipe_scoreboard::type_id::create("sb", this);
-`ifndef VERILATOR
       pipe_cov = pipe_coverage::type_id::create("pipe_cov", this);
-`endif
 
       `uvm_info(get_full_name( ), "Build stage complete.", UVM_LOW)
    endfunction: build_phase 
@@ -56,10 +52,8 @@ class dut_env extends uvm_env;
       penv_in.agent.monitor.item_collected_port.connect(sb.input_packets_collected.analysis_export);
       penv_out.agent.monitor.item_collected_port.connect(sb.output_packets_collected.analysis_export);
 
-`ifndef VERILATOR
       penv_in.agent.monitor.item_collected_port.connect(pipe_cov.analysis_export);
       penv_out.agent.monitor.item_collected_port.connect(pipe_cov.analysis_export);
-`endif
 
       `uvm_info(get_full_name( ), "Connect phase complete.", UVM_LOW)
    endfunction: connect_phase

@@ -5,7 +5,7 @@
 # Substantially modified by Mike Thompson, OpenHW (www.openhwgroup.org)
 # =============================================================================
 
-# Accelera's UVM library fetched with `wget https://www.accellera.org/images/downloads/standards/uvm/Accellera-1800.2-2017-1.0.tar.gz` (not yet working)
+# Accelera's UVM library fetched with `wget https://www.accellera.org/images/downloads/standards/uvm/Accellera-1800.2-2017-1.0.tar.gz`
 export UVM_HOME="/opt/accellera/1800.2-2017-1.0/src"
 
 # UVM library previous attemts...
@@ -112,12 +112,12 @@ rm -rf $OBJ_DIR
 #     +define+UVM_ENABLE_DEPRECATED_API \
 # Misc args
 #   --prof-cfuncs -CFLAGS -DVL_DEBUG \
-#   --coverage \
 verilator \
     --binary \
     --Mdir $OBJ_DIR \
     --error-limit 5 \
     --hierarchical \
+    --coverage \
     -j 4 \
     -Wall \
     --timescale 1ns/1ns \
@@ -142,6 +142,7 @@ verilator \
 # run
 ./verilator_obj_dir/Vuvm_pkg +UVM_TESTNAME="$OPT_TESTNAME" \
                              +UVM_OBJECTION_TRACE \
+                             +verilator+coverage+file+pipe.cov \
                              +uvm_set_severity=*,UVM\/COMP\/NAME, UVM_WARNING, UVM_INFO
 #                            +uvm_set_severity=<comp>,<id>,<current_severity>,<new_severity>
 

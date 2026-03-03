@@ -148,7 +148,7 @@ UVM_FATAL :    0
 2. Run it!
 ```
 $ cd scripts
-$ ./run_verilator.sh data0_test
+$ make all
 ```
 
 ## Future Work

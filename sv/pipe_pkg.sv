@@ -26,9 +26,7 @@ package pipe_pkg;
    `include "pipe_sequencer.sv"
    `include "pipe_agent.sv"
    `include "pipe_scoreboard.sv"
-`ifndef VERILATOR
    `include "pipe_coverage.sv"
-`endif
    `include "pipe_env.sv"
    `include "dut_env.sv"
    `include "pipe_sequence_lib.sv"
