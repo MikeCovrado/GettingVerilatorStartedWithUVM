@@ -12,10 +12,10 @@ SV_SOURCES = ../sv/pipe_pkg.sv \
              ../tb/top.sv
 
 # UVM variables
-# In this environment UVM_TESTNAME can be one of data0_test, data1_test, random_test, many_random_test.
-UVM_HOME      = /opt/accellera/1800.2-2017-1.0/src
-UVM_PKG       = $(UVM_HOME)/uvm_pkg.sv
-UVM_TESTNAME ?= data0_test
+UVM_HOME       = /opt/accellera/1800.2-2017-1.0/src
+UVM_PKG        = $(UVM_HOME)/uvm_pkg.sv
+UVM_TESTNAME  ?= data0_test
+ALL_TESTNAMES ?= data0_test data1_test random_test many_random_test
 
 # Output Directories
 OBJ_DIR  = obj_dir
@@ -128,8 +128,7 @@ run_all: $(OBJ_DIR)/V$(TOP_MODULE)
 	@echo "Running _all_ testcases..."
 	@echo $(BANNER)
 	@mkdir -p $(COV_DIR)
-	./$(OBJ_DIR)/V$(TOP_MODULE) +UVM_TESTNAME="data0_test"       +verilator+coverage+file+$(COV_DIR)/data0_test.cov        2>&1 | tee $(LOG_DIR)/data0_test.log
-	./$(OBJ_DIR)/V$(TOP_MODULE) +UVM_TESTNAME="data1_test"       +verilator+coverage+file+$(COV_DIR)/data1_test.cov        2>&1 | tee $(LOG_DIR)/data1_test.log
-	./$(OBJ_DIR)/V$(TOP_MODULE) +UVM_TESTNAME="random_test"      +verilator+coverage+file+$(COV_DIR)/random_test.cov       2>&1 | tee $(LOG_DIR)/random_test.log
-	./$(OBJ_DIR)/V$(TOP_MODULE) +UVM_TESTNAME="many_random_test" +verilator+coverage+file+$(COV_DIR)/many_random_test.cov  2>&1 | tee $(LOG_DIR)/many_random_test.log
-
+	@for testname in $(ALL_TESTNAMES); do \
+		echo "Creating $$testname..."; \
+		./$(OBJ_DIR)/V$(TOP_MODULE) +UVM_TESTNAME="$$testname" +verilator+coverage+file+$(COV_DIR)/$$testname.cov 2>&1 | tee $(LOG_DIR)/$$testname.log; \
+	done
