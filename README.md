@@ -1,3 +1,7 @@
+<!--
+Copyright (c) 2026 Eclipse Foundation
+SPDX-License-Identifier: Apache-2.0
+-->
 # GettingVerilatorStartedWithUVM
 This is a somewhat modified version of the source code for "Getting Started with UVM", a textbook by Vanessa Cooper of Verilab.
 The sources were fetched from the Verilab webpage at https://www.verilab.com/post/getting-started-with-uvm-book on 2023-08-24.
@@ -13,7 +17,7 @@ Check out the Issues and filter on 'Good First Issue.'
 ## Current status
 1. **Success!**
   - Compiles and executes with Verilator **v5.046** on Ubuntu 24.04.
-  - UVM library version is 1800.2-2017-1.0 (see `scripts/run_verilator.sh`).
+  - UVM library version is 1800.2-2017-1.0 (see UVM_HOME in `sim/Makefile`).
 2. Anything that is known to be not currently supported by Verilator is excluded with conditional compilation macros:
 ```
 `ifdef VERILATOR
@@ -147,7 +151,7 @@ UVM_FATAL :    0
 1. Install the latest version of Verilator (v5.046 or better).  See https://verilator.org/guide/latest/install.html for details.
 2. Run it!
 ```
-$ cd scripts
+$ cd sim
 $ make all
 ```
 
