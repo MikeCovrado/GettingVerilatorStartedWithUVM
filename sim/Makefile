@@ -12,7 +12,7 @@ SV_SOURCES = ../sv/pipe_pkg.sv \
              ../tb/top.sv
 
 # UVM variables
-UVM_HOME       = /opt/accellera/1800.2-2017-1.0/src
+UVM_HOME      ?= /opt/accellera/1800.2-2017-1.0/src
 UVM_PKG        = $(UVM_HOME)/uvm_pkg.sv
 UVM_TESTNAME  ?= data0_test
 ALL_TESTNAMES ?= data0_test data1_test random_test many_random_test
