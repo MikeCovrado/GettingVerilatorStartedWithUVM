@@ -91,7 +91,7 @@ $(OBJ_DIR)/V$(TOP_MODULE): $(SV_SOURCES)
 	$(VERILATOR) $(VERILATOR_FLAGS) $(DISABLED_WARNINGS) $(DEFINES) $(INCDIRS) $(UVM_PKG) $(SV_SOURCES) 2>&1 | tee $(CMP_LOG)
 
 # Run one simulation
-run_data0: $(OBJ_DIR)/V$(TOP_MODULE)
+run: $(OBJ_DIR)/V$(TOP_MODULE)
 	@echo $(BANNER)
 	@echo "Running $(UVM_TESTNAME)..."
 	@echo $(BANNER)
