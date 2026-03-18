@@ -12,7 +12,8 @@ SV_SOURCES = ../sv/pipe_pkg.sv \
              ../tb/top.sv
 
 # UVM variables
-UVM_HOME      ?= /opt/accellera/1800.2-2017-1.0/src
+# Accelera's UVM library fetched with `wget https://www.accellera.org/images/downloads/standards/uvm/Accellera-1800.2-2017-1.0.tar.gz`
+UVM_HOME       = /opt/accellera/1800.2-2017-1.0/src
 UVM_PKG        = $(UVM_HOME)/uvm_pkg.sv
 UVM_TESTNAME  ?= data0_test
 ALL_TESTNAMES ?= data0_test data1_test random_test many_random_test
@@ -96,7 +97,24 @@ run: $(OBJ_DIR)/V$(TOP_MODULE)
 	@echo "Running $(UVM_TESTNAME)..."
 	@echo $(BANNER)
 	@mkdir -p $(COV_DIR)
-	./$(OBJ_DIR)/V$(TOP_MODULE) +UVM_TESTNAME="$(UVM_TESTNAME)" +verilator+coverage+file+$(COV_FILE)  2>&1 | tee $(LOG_DIR)/$(UVM_TESTNAME).log
+	./$(OBJ_DIR)/V$(TOP_MODULE) \
+		+UVM_TESTNAME="$(UVM_TESTNAME)" \
+		+verilator+coverage+file+$(COV_DIR)/$(UVM_TESTNAME) \
+		2>&1 | tee $(LOG_DIR)/$(UVM_TESTNAME).log
+
+## Run all testcases
+run_all: $(OBJ_DIR)/V$(TOP_MODULE)
+	@echo $(BANNER)
+	@echo "Running _all_ testcases..."
+	@echo $(BANNER)
+	@mkdir -p $(COV_DIR)
+	@for testname in $(ALL_TESTNAMES); do \
+		echo "Creating $$testname..."; \
+		./$(OBJ_DIR)/V$(TOP_MODULE) \
+			+UVM_TESTNAME="$$testname" \
+			+verilator+coverage+file+$(COV_DIR)/$$testname.cov \
+			2>&1 | tee $(LOG_DIR)/$$testname.log; \
+	done
 
 # Generate Coverage Report
 # Annotate creates a copy of the source code with coverage markers
@@ -121,14 +139,3 @@ clean:
 	@echo "Delete _all_ generated files..."
 	@echo $(BANNER)
 	rm -rf $(OBJ_DIR) $(LOG_DIR)
-
-## Targets to run and generate reports for all testcases
-run_all: $(OBJ_DIR)/V$(TOP_MODULE)
-	@echo $(BANNER)
-	@echo "Running _all_ testcases..."
-	@echo $(BANNER)
-	@mkdir -p $(COV_DIR)
-	@for testname in $(ALL_TESTNAMES); do \
-		echo "Creating $$testname..."; \
-		./$(OBJ_DIR)/V$(TOP_MODULE) +UVM_TESTNAME="$$testname" +verilator+coverage+file+$(COV_DIR)/$$testname.cov 2>&1 | tee $(LOG_DIR)/$$testname.log; \
-	done
