@@ -1,6 +1,8 @@
 # Copyright (c) 2026 Eclipse Foundation
 # SPDX-License-Identifier:Apache-2.0
 
+# TODO: seed management
+
 # Variables
 BANNER     = "*******************************************************************************"
 VERILATOR  = verilator
@@ -27,7 +29,8 @@ COV_FILE = $(COV_DIR)/$(UVM_TESTNAME).cov
 
 # Verilator Flags
 # --coverage means all of --coverage-line, --coverage-toggle, and --coverage-user
-VERILATOR_FLAGS = --binary \
+VERILATOR_FLAGS = --main \
+                  --binary \
                   --build \
                   --cc \
                   --Mdir $(OBJ_DIR) \
@@ -77,10 +80,10 @@ targets:
 	@echo "  cov_report: generate a coverage report (depends on run)."
 	@echo "  epilog: print location of objs, logs and coverage files (no dependents)."
 	@echo "  clean: delete all generated files."
-	@echo "  one: clean, run_data0, cov_report and epilog (in that order)."
+	@echo "  one: clean, run_one, cov_report and epilog (in that order)."
 	@echo "  all: clean, run_all, cov_report and epilog (in that order)."
 
-one: clean $(OBJ_DIR)/V$(TOP_MODULE) run_data0 cov_report epilog
+one: clean $(OBJ_DIR)/V$(TOP_MODULE) run_one cov_report epilog
 all: clean $(OBJ_DIR)/V$(TOP_MODULE) run_all cov_report epilog
 
 # Compile and Build
@@ -91,15 +94,15 @@ $(OBJ_DIR)/V$(TOP_MODULE): $(SV_SOURCES)
 	@mkdir -p $(LOG_DIR)
 	$(VERILATOR) $(VERILATOR_FLAGS) $(DISABLED_WARNINGS) $(DEFINES) $(INCDIRS) $(UVM_PKG) $(SV_SOURCES) 2>&1 | tee $(CMP_LOG)
 
-# Run one simulation
-run: $(OBJ_DIR)/V$(TOP_MODULE)
+# Run one testcase (as determined by $UVM_TESTNAME)
+run_one: $(OBJ_DIR)/V$(TOP_MODULE)
 	@echo $(BANNER)
 	@echo "Running $(UVM_TESTNAME)..."
 	@echo $(BANNER)
 	@mkdir -p $(COV_DIR)
 	./$(OBJ_DIR)/V$(TOP_MODULE) \
 		+UVM_TESTNAME="$(UVM_TESTNAME)" \
-		+verilator+coverage+file+$(COV_DIR)/$(UVM_TESTNAME) \
+		+verilator+coverage+file+$(COV_DIR)/$(UVM_TESTNAME).cov \
 		2>&1 | tee $(LOG_DIR)/$(UVM_TESTNAME).log
 
 ## Run all testcases
