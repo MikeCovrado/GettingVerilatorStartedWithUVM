@@ -34,6 +34,7 @@ or try something from 'Future Work' (at the end of this README).
 5. Large number of UVM_WARNING @ t=0: (violations the uvm component name constraints). Investigating.
 6. Successful execution of the `data0_test`:
 <details>
+  
 ```
 - V e r i l a t i o n   R e p o r t: Verilator 5.050 2026-07-01 rev v5.050
 - Verilator: Built from 14.785 MB sources in 358 modules, into 27.841 MB in 2056 C++ files needing 99.110 MB
@@ -165,6 +166,7 @@ UVM_FATAL :    0
 ## Code Coverage!
 The Makefile compiles, runs and merges all supported code coverage and produces a result simular to the following:
 <details>
+  
 ```
 verilator_coverage --annotate logs/annotated_src logs/coverage/*.cov
 Coverage Summary:
@@ -195,4 +197,4 @@ $ make all
 3. Investigate the run-time warnings.
 4. Starting removing the DISABLED WARNINGS in the Makefile.
 5. Start pushing advanced randomization of stimulus.
-6. Add more tests to close coe coverage (and one day, functional coverage too!).
+6. Add more tests to close code coverage (and one day, functional coverage too!).
