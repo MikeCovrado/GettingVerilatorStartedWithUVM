@@ -17,14 +17,9 @@
 //   permissions and limitations under the License.
 //----------------------------------------------------------------------
 
-`ifndef VERILATOR
 class pipe_sequencer extends uvm_sequencer #(data_packet);
-`else
-class pipe_sequencer extends uvm_sequencer #(data_packet, data_packet);
-`endif
 
    `uvm_component_utils(pipe_sequencer)
-//   `uvm_sequencer_utils(pipe_sequencer)
 
    function new(string name, uvm_component parent);
       super.new(name, parent);

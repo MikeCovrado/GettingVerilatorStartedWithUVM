@@ -17,26 +17,34 @@ or try something from 'Future Work' (at the end of this README).
 
 ## Current status
 1. **Success!**
-  - Compiles and executes with Verilator **v5.048** on Ubuntu 24.04.
+  - Compiles and executes with Verilator **v5.050** on Ubuntu 24.04.
   - UVM library version is 1800.2-2017-1.0 (see UVM_HOME in `sim/Makefile`).
-2. Anything that is known to be not currently supported by Verilator is excluded with conditional compilation macros:
-```
-`ifdef VERILATOR
-  // code that is not supported by Verilator...
-`else
-  // temporary work-around
-`endif
-```
+2. There are **zero** code blocks excluded with conditional compilation (ifdef) macros!
 3. Compiles with zero errors (subject to a rather long list of disabled warnings).
-4. Large number of UVM_WARNING @ t=0: (violations the uvm component name constraints). Investigating.
-5. Successful execution of the `data0_test`:
-<details>
-
+4. The functional coverage code is not yet supported:
 ```
-- V e r i l a t i o n   R e p o r t: Verilator 5.048 2026-04-26 rev v5.048
-- Verilator: Built from 14.784 MB sources in 357 modules, into 27.912 MB in 2057 C++ files needing 99.124 MB
-- Verilator: Walltime 159.445 s (elab=0.655, cvt=2.419, bld=154.623); cpu 4.457 s on 4 threads; allocated 288.848 MB
-
+%Warning-COVERIGN: ../sv/pipe_coverage.sv:29:29: Unsupported: 'covergroup' coverpoint referencing enclosing class member; ignoring covergroup '__vlAnonCG_cg'
+                                               : ... note: In instance 'top'
+   29 |       cov_cf:    coverpoint pkt.cf;
+      |                             ^~~
+                   ../rtl/../sv/pipe_pkg.sv:30:1: ... note: In file included from 'pipe_pkg.sv'
+                   ... For warning description see https://verilator.org/warn/COVERIGN?v=5.050
+                   ... Use "/* verilator lint_off COVERIGN */" and lint_on around source to disable this message.
+```
+5. Large number of UVM_WARNING @ t=0: (violations the uvm component name constraints). Investigating.
+6. Successful execution of the `data0_test`:
+<details>
+```
+- V e r i l a t i o n   R e p o r t: Verilator 5.050 2026-07-01 rev v5.050
+- Verilator: Built from 14.785 MB sources in 358 modules, into 27.841 MB in 2056 C++ files needing 99.110 MB
+- Verilator: Walltime 6.547 s (elab=0.675, cvt=2.503, bld=2.804); cpu 4.316 s on 4 threads; allocated 291.484 MB
+*******************************************************************************
+Running data0_test...
+*******************************************************************************
+./obj_dir/Vuvm_pkg \
+    +UVM_TESTNAME="data0_test" \
+    +verilator+coverage+file+logs/coverage/data0_test.cov \
+    2>&1 | tee logs/data0_test.log
 UVM_INFO @ 0: reporter [UVM/RELNOTES] 
   ***********       IMPORTANT RELEASE NOTES         ************
 
@@ -148,14 +156,33 @@ UVM_FATAL :    0
 [uvm_test_top.env.sb]     1
 
 - /opt/accellera/1800.2-2017-1.0/src/base/uvm_root.svh:585: Verilog $finish
-- S i m u l a t i o n   R e p o r t: Verilator 5.048 2026-04-26
-- Verilator: $finish at 2us; walltime 0.373 s; speed 11.276 us/s
-- Verilator: cpu 0.137 s on 1 threads; allocated 45 MB
+- S i m u l a t i o n   R e p o r t: Verilator 5.050 2026-07-01
+- Verilator: $finish at 2us; walltime 0.170 s; speed 9.081 us/s
+- Verilator: cpu 0.142 s on 1 threads; allocated 45 MB
+```
+</details>
+
+## Code Coverage!
+The Makefile compiles, runs and merges all supported code coverage and produces a result simular to the following:
+<details>
+```
+verilator_coverage --annotate logs/annotated_src logs/coverage/*.cov
+Coverage Summary:
+  line      : 27.1% ( 2671/ 9865)
+  toggle    : 20.3% (   70/  344)
+  branch    : 12.6% ( 1766/14024)
+  expr      : 10.2% (  347/ 3404)
+  fsm_state : 0.0% (    0/    0)
+  fsm_arc   : 0.0% (    0/    0)
+Annotation Summary:
+  lines with all attached points covered :  7.00%  (1276/17757)
+See lines with '%00' in logs/annotated_src
+verilator_coverage --rank logs/coverage/*.cov > logs/coverage_ranking.txt
 ```
 </details>
 
 ## Try it yourself!
-1. Install the latest version of Verilator (v5.046 or better).  See https://verilator.org/guide/latest/install.html for details.
+1. Install the latest version of Verilator (currently v5.050).  See https://verilator.org/guide/latest/install.html for details.
 2. Run it!
 ```
 $ cd sim
@@ -167,5 +194,5 @@ $ make all
 2. Ensure both `data0_test` and `data1_test` are doing what they _should_ be doing.
 3. Investigate the run-time warnings.
 4. Starting removing the DISABLED WARNINGS in the Makefile.
-4. Remove any existing `ifdef VERILATOR` work-arounds.
 5. Start pushing advanced randomization of stimulus.
+6. Add more tests to close coe coverage (and one day, functional coverage too!).
