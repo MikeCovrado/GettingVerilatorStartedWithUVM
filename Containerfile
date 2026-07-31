@@ -19,8 +19,11 @@ ENV UVM_HOME=/opt/accellera/${UVM_VERSION}/src
 
 # Install z3 SAT solver.
 # Verilator shells out to z3 when evaluating SVA assertions at runtime.
+# Z3_VERSION is pinned to the exact package from the base image's Ubuntu noble
+# archive; override only if you retarget the base image.
+ARG Z3_VERSION=4.8.12-3.1build1
 RUN apt-get update \
- && apt-get install -y --no-install-recommends z3 \
+ && apt-get install -y --no-install-recommends z3=${Z3_VERSION} \
  && rm -rf /var/lib/apt/lists/*
 
 # Copy the project sources in. For day-to-day development, it's better to bind-mount your
