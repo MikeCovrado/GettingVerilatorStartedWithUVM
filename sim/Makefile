@@ -3,6 +3,11 @@
 
 # TODO: seed management
 
+# Run recipes with bash + pipefail so `cmd | tee` surfaces cmd's exit status
+# (rather than tee's), and run_all aborts on the first failed test.
+SHELL := /bin/bash
+.SHELLFLAGS := -o pipefail -c
+
 # Variables
 BANNER     = "*******************************************************************************"
 VERILATOR  = verilator
@@ -112,7 +117,7 @@ run_all: $(OBJ_DIR)/V$(TOP_MODULE)
 	@echo "Running _all_ testcases..."
 	@echo $(BANNER)
 	@mkdir -p $(COV_DIR)
-	@for testname in $(ALL_TESTNAMES); do \
+	@set -e; for testname in $(ALL_TESTNAMES); do \
 		echo "Creating $$testname..."; \
 		./$(OBJ_DIR)/V$(TOP_MODULE) \
 			+UVM_TESTNAME="$$testname" \
