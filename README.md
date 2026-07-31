@@ -197,6 +197,11 @@ The included `Containerfile` builds on the official `verilator/verilator` image
 (see https://hub.docker.com/r/verilator/verilator) and layers in the Accellera UVM library.
 With this, no local Verilator or UVM install is needed.
 
+> [!NOTE]
+> The commands below use `podman`, but `docker` works too with two adjustments: pass
+> `-f Containerfile` to `docker build` (docker looks for `Dockerfile` by default),
+> and drop `--userns=keep-id` from `docker run` (docker doesn't support that flag).
+
 ### Build the image
 
 From the repository root:
@@ -213,7 +218,7 @@ podman build -t verilator-uvm .
 > ```
 > Available Verilator release tags mirror the
 > [verilator/verilator](https://hub.docker.com/r/verilator/verilator/tags) image on
-> Docker Hub (e.g. `v5.048`, `v5.050`). Available UVM versions are the
+> Docker Hub (e.g. `v5.048`, `v5.050`). Available UVM versions are those
 > published by [Accellera](https://www.accellera.org/downloads/standards/uvm/).
 
 ### Get a shell inside the container
@@ -221,8 +226,6 @@ podman build -t verilator-uvm .
 ```sh
 podman run --rm -it --userns=keep-id --user "$(id -u):$(id -g)" -v "$PWD":/work verilator-uvm bash
 ```
-
-> NOTE: If using `docker`, omit the `--userns=keep-id` option.
 
 From here, you can run any make command you normally would, but now from inside the container with all the
 necessary dependencies preinstalled for you. Generated artifacts (`obj_dir`, `logs`) are written under the
