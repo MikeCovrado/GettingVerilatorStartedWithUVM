@@ -34,7 +34,7 @@ or try something from 'Future Work' (at the end of this README).
 5. Large number of UVM_WARNING @ t=0: (violations the uvm component name constraints). Investigating.
 6. Successful execution of the `data0_test`:
 <details>
-  
+
 ```
 - V e r i l a t i o n   R e p o r t: Verilator 5.050 2026-07-01 rev v5.050
 - Verilator: Built from 14.785 MB sources in 358 modules, into 27.841 MB in 2056 C++ files needing 99.110 MB
@@ -46,7 +46,7 @@ Running data0_test...
     +UVM_TESTNAME="data0_test" \
     +verilator+coverage+file+logs/coverage/data0_test.cov \
     2>&1 | tee logs/data0_test.log
-UVM_INFO @ 0: reporter [UVM/RELNOTES] 
+UVM_INFO @ 0: reporter [UVM/RELNOTES]
   ***********       IMPORTANT RELEASE NOTES         ************
 
   This implementation of the UVM Library deviates from the 1800.2-2017
@@ -82,53 +82,53 @@ UVM_INFO @ 0: uvm_test_top [data0_test] Printing the test topology :
 -----------------------------------------------------------------------
 Name                            Type                        Size  Value
 -----------------------------------------------------------------------
-uvm_test_top                    data0_test                  -     @121 
-  env                           dut_env                     -     @166 
-    penv_in                     pipe_env                    -     @187 
-      agent                     pipe_agent                  -     @236 
-        driver                  pipe_driver                 -     @389 
-          rsp_port              uvm_analysis_port           -     @408 
-          seq_item_port         uvm_seq_item_pull_port      -     @398 
-        monitor                 pipe_monitor                -     @418 
-          item_collected_port   uvm_analysis_port           -     @444 
-        sequencer               pipe_sequencer              -     @252 
-          rsp_export            uvm_analysis_export         -     @261 
-          seq_item_export       uvm_seq_item_pull_imp       -     @379 
-          arbitration_queue     array                       0     -    
-          lock_queue            array                       0     -    
-          num_last_reqs         integral                    32    'd1  
-          num_last_rsps         integral                    32    'd1  
-    penv_out                    pipe_env                    -     @196 
-      agent                     pipe_agent                  -     @463 
-        monitor                 pipe_monitor                -     @478 
-          item_collected_port   uvm_analysis_port           -     @498 
-    pipe_cov                    pipe_coverage               -     @214 
-      analysis_imp              uvm_analysis_imp            -     @223 
-    sb                          pipe_scoreboard             -     @205 
-      input_packets_collected   uvm_tlm_analysis_fifo #(T)  -     @516 
-        analysis_export         uvm_analysis_imp            -     @565 
-        get_ap                  uvm_analysis_port           -     @555 
-        get_peek_export         uvm_get_peek_imp            -     @535 
-        put_ap                  uvm_analysis_port           -     @545 
-        put_export              uvm_put_imp                 -     @525 
-      output_packets_collected  uvm_tlm_analysis_fifo #(T)  -     @575 
-        analysis_export         uvm_analysis_imp            -     @624 
-        get_ap                  uvm_analysis_port           -     @614 
-        get_peek_export         uvm_get_peek_imp            -     @594 
-        put_ap                  uvm_analysis_port           -     @604 
-        put_export              uvm_put_imp                 -     @584 
+uvm_test_top                    data0_test                  -     @121
+  env                           dut_env                     -     @166
+    penv_in                     pipe_env                    -     @187
+      agent                     pipe_agent                  -     @236
+        driver                  pipe_driver                 -     @389
+          rsp_port              uvm_analysis_port           -     @408
+          seq_item_port         uvm_seq_item_pull_port      -     @398
+        monitor                 pipe_monitor                -     @418
+          item_collected_port   uvm_analysis_port           -     @444
+        sequencer               pipe_sequencer              -     @252
+          rsp_export            uvm_analysis_export         -     @261
+          seq_item_export       uvm_seq_item_pull_imp       -     @379
+          arbitration_queue     array                       0     -
+          lock_queue            array                       0     -
+          num_last_reqs         integral                    32    'd1
+          num_last_rsps         integral                    32    'd1
+    penv_out                    pipe_env                    -     @196
+      agent                     pipe_agent                  -     @463
+        monitor                 pipe_monitor                -     @478
+          item_collected_port   uvm_analysis_port           -     @498
+    pipe_cov                    pipe_coverage               -     @214
+      analysis_imp              uvm_analysis_imp            -     @223
+    sb                          pipe_scoreboard             -     @205
+      input_packets_collected   uvm_tlm_analysis_fifo #(T)  -     @516
+        analysis_export         uvm_analysis_imp            -     @565
+        get_ap                  uvm_analysis_port           -     @555
+        get_peek_export         uvm_get_peek_imp            -     @535
+        put_ap                  uvm_analysis_port           -     @545
+        put_export              uvm_put_imp                 -     @525
+      output_packets_collected  uvm_tlm_analysis_fifo #(T)  -     @575
+        analysis_export         uvm_analysis_imp            -     @624
+        get_ap                  uvm_analysis_port           -     @614
+        get_peek_export         uvm_get_peek_imp            -     @594
+        put_ap                  uvm_analysis_port           -     @604
+        put_export              uvm_put_imp                 -     @584
 -----------------------------------------------------------------------
 
 UVM_INFO @ 0: reporter [UVM/COMP/NAMECHECK] This implementation of the component name checks requires DPI to be enabled
 UVM_WARNING @ 0: reporter [UVM/COMP/NAME] the name "uvm_test_top" of the component "uvm_test_top" violates the uvm component name constraints
 ... deleted a rather large number of warnings similar to the above ...
 
-UVM_INFO @ 0: uvm_test_top.env.penv_in.agent.driver [pipe_driver] Resetting signals ... 
+UVM_INFO @ 0: uvm_test_top.env.penv_in.agent.driver [pipe_driver] Resetting signals ...
 UVM_INFO @ 1545: uvm_test_top.env.pipe_cov [pipe_coverage] Number of coverage packets collected = 152
 UVM_INFO @ 1545: uvm_test_top.env.pipe_cov [pipe_coverage] Current coverage  = 0.000000
 UVM_INFO @ 1545: uvm_test_top.env.penv_in.agent.monitor [pipe_monitor] REPORT: COLLECTED PACKETS = 76
 UVM_INFO @ 1545: uvm_test_top.env.penv_out.agent.monitor [pipe_monitor] REPORT: COLLECTED PACKETS = 76
-UVM_INFO @ 1545: reporter [UVM/REPORT/SERVER] 
+UVM_INFO @ 1545: reporter [UVM/REPORT/SERVER]
 --- UVM Report Summary ---
 
 ** Report counts by severity
@@ -166,7 +166,7 @@ UVM_FATAL :    0
 ## Code Coverage!
 The Makefile compiles, runs and merges all supported code coverage and produces a result simular to the following:
 <details>
-  
+
 ```
 verilator_coverage --annotate logs/annotated_src logs/coverage/*.cov
 Coverage Summary:
@@ -189,6 +189,60 @@ verilator_coverage --rank logs/coverage/*.cov > logs/coverage_ranking.txt
 ```
 $ cd sim
 $ make all
+```
+
+## Run it in a container
+
+The included `Containerfile` builds on the official `verilator/verilator` image
+(see https://hub.docker.com/r/verilator/verilator) and layers in the Accellera UVM library.
+With this, no local Verilator or UVM install is needed.
+
+> [!NOTE]
+> The commands below use `podman`, but `docker` works too with two adjustments: pass
+> `-f Containerfile` to `docker build` (docker looks for `Dockerfile` by default),
+> and drop `--userns=keep-id` from `docker run` (docker doesn't support that flag).
+
+### Build the image
+
+From the repository root:
+```sh
+podman build -t verilator-uvm .
+```
+
+> [!NOTE]
+> The `Containerfile` accepts `VERILATOR_VERSION` and `UVM_VERSION` build args (both
+> default to the versions pinned in this repo). To experiment with a different
+> combination, override them at build time:
+> ```sh
+> podman build --build-arg VERILATOR_VERSION=v5.048 --build-arg UVM_VERSION=1800.2-2017-1.0 -t verilator-uvm .
+> ```
+> Available Verilator release tags mirror the
+> [verilator/verilator](https://hub.docker.com/r/verilator/verilator/tags) image on
+> Docker Hub (e.g. `v5.048`, `v5.050`). Available UVM versions are those
+> published by [Accellera](https://www.accellera.org/downloads/standards/uvm/).
+
+### Get a shell inside the container
+
+```sh
+podman run --rm -it --userns=keep-id --user "$(id -u):$(id -g)" -v "$PWD":/work verilator-uvm bash
+```
+
+From here, you can run any make command you normally would, but now from inside the container with all the
+necessary dependencies preinstalled for you. Generated artifacts (`obj_dir`, `logs`) are written under the
+bind-mounted working tree, so they appear on the host just as they would for a native run.
+
+### Run everything (clean, build, run all tests, coverage report)
+
+```sh
+podman run --rm --userns=keep-id --user "$(id -u):$(id -g)" -v "$PWD":/work verilator-uvm
+```
+
+The image's default command is `make all`, run from `/work/sim`.
+
+### Run a single test
+
+```sh
+podman run --rm --userns=keep-id --user "$(id -u):$(id -g)" -v "$PWD":/work verilator-uvm make one UVM_TESTNAME=data0_test
 ```
 
 ## Future Work

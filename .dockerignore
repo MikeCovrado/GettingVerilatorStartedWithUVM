@@ -1,0 +1,6 @@
+.git
+*.swp
+**/obj_dir
+**/logs
+sim/deprecated
+.cache

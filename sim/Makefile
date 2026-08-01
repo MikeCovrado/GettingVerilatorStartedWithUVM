@@ -3,6 +3,11 @@
 
 # TODO: seed management
 
+# Run recipes with bash + pipefail so `cmd | tee` surfaces cmd's exit status
+# (rather than tee's), and run_all aborts on the first failed test.
+SHELL := /bin/bash
+.SHELLFLAGS := -o pipefail -c
+
 # Variables
 BANNER     = "*******************************************************************************"
 VERILATOR  = verilator
@@ -15,7 +20,8 @@ SV_SOURCES = ../sv/pipe_pkg.sv \
 
 # UVM variables
 # Accelera's UVM library fetched with `wget https://www.accellera.org/images/downloads/standards/uvm/Accellera-1800.2-2017-1.0.tar.gz`
-UVM_HOME       = /opt/accellera/1800.2-2017-1.0/src
+# Use ?= so the container image can inject UVM_HOME via its environment.
+UVM_HOME       ?= /opt/accellera/1800.2-2017-1.0/src
 UVM_PKG        = $(UVM_HOME)/uvm_pkg.sv
 UVM_TESTNAME  ?= data0_test
 ALL_TESTNAMES ?= data0_test data1_test random_test many_random_test
@@ -111,7 +117,7 @@ run_all: $(OBJ_DIR)/V$(TOP_MODULE)
 	@echo "Running _all_ testcases..."
 	@echo $(BANNER)
 	@mkdir -p $(COV_DIR)
-	@for testname in $(ALL_TESTNAMES); do \
+	@set -e; for testname in $(ALL_TESTNAMES); do \
 		echo "Creating $$testname..."; \
 		./$(OBJ_DIR)/V$(TOP_MODULE) \
 			+UVM_TESTNAME="$$testname" \
