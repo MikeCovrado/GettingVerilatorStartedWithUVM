@@ -9,6 +9,7 @@ SHELL := /bin/bash
 .SHELLFLAGS := -o pipefail -c
 
 # Variables
+NJOBS     ?= 8
 BANNER     = "*******************************************************************************"
 VERILATOR  = verilator
 COV_TOOL   = verilator_coverage
@@ -19,9 +20,9 @@ SV_SOURCES = ../sv/pipe_pkg.sv \
              ../tb/top.sv
 
 # UVM variables
-# Accelera's UVM library fetched with `wget https://www.accellera.org/images/downloads/standards/uvm/Accellera-1800.2-2017-1.0.tar.gz`
+# Accelera's UVM library downloaded from https://www.accellera.org/downloads/standards/uvm.
 # Use ?= so the container image can inject UVM_HOME via its environment.
-UVM_HOME       ?= /opt/accellera/1800.2-2017-1.0/src
+UVM_HOME      ?= /opt/accellera/1800.2-2020.3.2/src
 UVM_PKG        = $(UVM_HOME)/uvm_pkg.sv
 UVM_TESTNAME  ?= data0_test
 ALL_TESTNAMES ?= data0_test data1_test random_test many_random_test
@@ -43,9 +44,11 @@ VERILATOR_FLAGS = --main \
                   --error-limit 5 \
                   --hierarchical \
                   --coverage \
-                  -j 4 \
+                  -j $(NJOBS) \
                   -Wall \
-                  --timescale 1ns/1ns
+                  --timescale 1ns/1ns \
+                  --trace-fst \
+                  config.vlt
 
 # Deliberately disabled warnings (all from the UVM class library)
 # TODO: eliminate these one-by-one.
@@ -82,12 +85,11 @@ DEFINES = +define+UVM_REPORT_DISABLE_FILE_LINE \
 targets:
 	@echo "Available targets..."
 	@echo "  $(OBJ_DIR)/V$(TOP_MODULE): compile and build"
-	@echo "  run: run UVM test $(UVM_TESTNAME) (depends on $(OBJ_DIR)/V$(TOP_MODULE))."
+	@echo "  one: clean, run_one, cov_report and epilog (in that order)."
+	@echo "  all: clean, run_all, cov_report and epilog (in that order)."
 	@echo "  cov_report: generate a coverage report (depends on run)."
 	@echo "  epilog: print location of objs, logs and coverage files (no dependents)."
 	@echo "  clean: delete all generated files."
-	@echo "  one: clean, run_one, cov_report and epilog (in that order)."
-	@echo "  all: clean, run_all, cov_report and epilog (in that order)."
 
 one: clean $(OBJ_DIR)/V$(TOP_MODULE) run_one cov_report epilog
 all: clean $(OBJ_DIR)/V$(TOP_MODULE) run_all cov_report epilog
@@ -118,7 +120,9 @@ run_all: $(OBJ_DIR)/V$(TOP_MODULE)
 	@echo $(BANNER)
 	@mkdir -p $(COV_DIR)
 	@set -e; for testname in $(ALL_TESTNAMES); do \
-		echo "Creating $$testname..."; \
+		echo "!!!"; \
+		echo "!!! Creating $$testname..."; \
+		echo "!!!"; \
 		./$(OBJ_DIR)/V$(TOP_MODULE) \
 			+UVM_TESTNAME="$$testname" \
 			+verilator+coverage+file+$(COV_DIR)/$$testname.cov \
@@ -147,4 +151,4 @@ clean:
 	@echo $(BANNER)
 	@echo "Delete _all_ generated files..."
 	@echo $(BANNER)
-	rm -rf $(OBJ_DIR) $(LOG_DIR)
+	rm -rf $(OBJ_DIR) $(LOG_DIR) *.fst

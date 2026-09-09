@@ -28,29 +28,49 @@ module top;
    pipe_if ovif(.clk(clk), .rst_n(rst_n));
 
 
-   pipe pipe_top(.clk(clk),
-                 .rst_n(rst_n),
-                 .i_cf(ivif.cf),
-                 .i_en(ivif.enable),
-                 .i_data0(ivif.data_in0),
-                 .i_data1(ivif.data_in1),
-                 .o_data0(ovif.data_out0),
-                 .o_data1(ovif.data_out1)
+   pipe pipe_top(.clk     (clk),
+                 .rst_n   (rst_n),
+                 .i_cf    (ivif.cf),
+                 .i_en    (ivif.enable),
+                 .i_data0 (ivif.data_in0),
+                 .i_data1 (ivif.data_in1),
+                 .o_data0 (ovif.data_out0),
+                 .o_data1 (ovif.data_out1)
                 );
 
    always #5 clk <= ~clk;
 
    initial begin
-       #5 rst_n = 1'b0;
+      string uvm_test_name;
+
+      // Filename for waves matches the testname
+      if ($value$plusargs("UVM_TESTNAME=%s", uvm_test_name)) begin
+          uvm_test_name = {uvm_test_name, ".fst"};
+          $display("UVM Test Name: %s", uvm_test_name);
+      end
+
+      // --- WAVEFORM INITIALIZATION ---
+      $dumpfile(uvm_test_name); // output fn (must have .fst extension)
+      $dumpvars(0, pipe_top);   // '0' means dump all hierarchical layers under 'dut'
+
+      // clock and reset init
+      rst_n = 1'b1;
+      #5  rst_n = 1'b0;
       #25 rst_n = 1'b1;
    end
 
-   assign ovif.enable = ivif.enable;
+   // Create an output enable for the testbench
+   logic dlyflop;
+   always @(posedge clk) begin
+       dlyflop     <= ivif.enable;
+       ovif.enable <= dlyflop;
+   end
 
+   // Classial UVM testcase entry point...
    initial begin
       uvm_config_db#(virtual pipe_if)::set(uvm_root::get( ) , "*.agent.*" , "in_intf", ivif);
       uvm_config_db#(virtual pipe_if)::set(uvm_root::get( ) , "*.monitor" , "out_intf", ovif);
       run_test( );
    end
 
-endmodule
+endmodule: top

@@ -40,8 +40,8 @@ class pipe_monitor extends uvm_monitor;
       `uvm_info(get_type_name( ), $sformatf("INTERFACE USED = %0s", monitor_intf), UVM_LOW)
       if(!uvm_config_db#(virtual pipe_if)::get(this, "", monitor_intf, vif))
          `uvm_fatal("NOVIF", {"virtual interface must be set for: ", get_full_name( ), ".vif"})
-      
-      item_collected_port = new("item_collected_port", this);      
+
+      item_collected_port = new("item_collected_port", this);
       data_collected = data_packet::type_id::create("data_collected");
       data_clone = data_packet::type_id::create("data_clone");
 
@@ -54,21 +54,22 @@ class pipe_monitor extends uvm_monitor;
 
    virtual task collect_data( );
       forever begin
-         wait(vif.rst_n) 
-         data_collected.cf = vif.cf;
-         data_collected.data_in0 = vif.data_in0;
-         data_collected.data_in1 = vif.data_in1;
-         repeat(2) @(posedge vif.clk);
-         data_collected.data_out0 = vif.data_out0;
-         data_collected.data_out1 = vif.data_out1;
-         $cast(data_clone, data_collected.clone( ));
-         item_collected_port.write(data_clone);
-         num_pkts++;
-      end 
+         @(posedge vif.clk);
+         if (vif.enable) begin
+             data_collected.cf = vif.cf;
+             data_collected.data_in0 = vif.data_in0;
+             data_collected.data_in1 = vif.data_in1;
+
+             data_collected.data_out0 = vif.data_out0;
+             data_collected.data_out1 = vif.data_out1;
+             $cast(data_clone, data_collected.clone( ));
+             item_collected_port.write(data_clone);
+             num_pkts++;
+         end
+      end
    endtask: collect_data
 
    virtual function void report_phase(uvm_phase phase);
-      //`uvm_info(get_type_name( ), $psprintf("REPORT: COLLECTED PACKETS = %0d", num_pkts), UVM_LOW)
       `uvm_info(get_type_name( ), $sformatf("REPORT: COLLECTED PACKETS = %0d", num_pkts), UVM_LOW)
    endfunction: report_phase
 

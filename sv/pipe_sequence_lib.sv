@@ -27,6 +27,7 @@ class random_sequence extends uvm_sequence #(data_packet);
 
    virtual task body( );
       `uvm_do(req);
+      req.displayAll();
    endtask: body
 
 endclass: random_sequence
@@ -52,6 +53,7 @@ class data0_sequence extends uvm_sequence #(data_packet);
       if (!req.randomize() with { req.data_in0 == 16'h0; }) begin
           `uvm_error("RAND_FAIL", "Randomization failed!")
       end
+      req.displayAll();
       finish_item(req);
    endtask: body
 
@@ -68,6 +70,7 @@ class data1_sequence extends uvm_sequence #(data_packet);
       req = data_packet::type_id::create("req");
       start_item(req);
       assert(req.randomize() with {data_in1 == 'hffff;});
+      req.displayAll();
       finish_item(req);
    endtask: body
 
@@ -86,6 +89,7 @@ class many_random_sequence extends uvm_sequence #(data_packet);
    virtual task body( );
       for(int i = 0; i < loop; i++) begin
         `uvm_do(req);
+        req.displayAll();
       end
    endtask: body
 

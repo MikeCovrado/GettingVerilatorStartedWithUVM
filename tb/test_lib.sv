@@ -69,7 +69,7 @@ class random_test extends base_test;
       phase.raise_objection(this);
       seq = random_sequence::type_id::create("seq");
       seq.start(env.penv_in.agent.sequencer);
-      phase.drop_objection(this);      
+      phase.drop_objection(this);
    endtask: run_phase
 endclass: random_test
 
@@ -91,7 +91,7 @@ class data0_test extends base_test;
       phase.raise_objection(this);
       seq = data0_sequence::type_id::create("seq");
       seq.start(env.penv_in.agent.sequencer);
-      phase.drop_objection(this);      
+      phase.drop_objection(this);
    endtask: run_phase
 endclass: data0_test
 
@@ -113,7 +113,7 @@ class data1_test extends base_test;
       phase.raise_objection(this);
       seq = data1_sequence::type_id::create("seq");
       seq.start(env.penv_in.agent.sequencer);
-      phase.drop_objection(this);      
+      phase.drop_objection(this);
    endtask: run_phase
 endclass: data1_test
 
@@ -136,7 +136,7 @@ class many_random_test extends base_test;
       seq = many_random_sequence::type_id::create("seq");
       assert(seq.randomize( ));
       seq.start(env.penv_in.agent.sequencer);
-      phase.drop_objection(this);      
+      phase.drop_objection(this);
    endtask: run_phase
 endclass: many_random_test
 

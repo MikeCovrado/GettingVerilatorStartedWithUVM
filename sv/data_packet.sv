@@ -26,7 +26,7 @@ class data_packet extends uvm_sequence_item;
    rand bit [15:0] data_out1;
    rand int delay;
 
-   constraint timing {delay inside {[0:5]};}
+   constraint timing {delay inside {[1:5]};} // note: delay cannot be 1 (see driver)
 
    `uvm_object_utils_begin(data_packet)
       `uvm_field_int(cf, UVM_DEFAULT)

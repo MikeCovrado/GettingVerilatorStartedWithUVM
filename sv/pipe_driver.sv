@@ -52,8 +52,8 @@ class pipe_driver extends uvm_driver #(data_packet);
    endtask: reset
 
    virtual task get_and_drive( );
+      @(posedge vif.rst_n);
       forever begin
-         @(posedge vif.rst_n);
          while(vif.rst_n != 1'b0) begin
             seq_item_port.get_next_item(req);
             drive_packet(req);

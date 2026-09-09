@@ -1,0 +1,8 @@
+`verilator_config
+
+// 1. Turn off tracing globally for everything by default
+tracing_off -scope "*"
+
+// 2. Turn tracing back on only for your RTL top module and everything below it
+// Replace "your_rtl_top_module_name" with the exact instance name of your RTL inside the testbench
+tracing_on -scope "top.*"
